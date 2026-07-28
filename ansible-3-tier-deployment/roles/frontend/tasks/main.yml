@@ -1,0 +1,15 @@
+- name: Build frontend Docker image
+  docker_image:
+    name: "{{ frontend_image }}"
+    source: build
+    build:
+      path: "{{ app_path }}/client"
+
+- name: Run frontend container
+  docker_container:
+    name: frontend
+    image: "{{ frontend_image }}"
+    state: started
+    ports:
+      - "81:80"
+    restart_policy: always

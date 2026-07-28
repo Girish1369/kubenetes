@@ -1,0 +1,13 @@
+- name: Install required packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - docker
+
+- name: Start and enable Docker
+  service:
+    name: docker
+    state: started
+    enabled: yes

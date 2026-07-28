@@ -1,0 +1,27 @@
+- name: Build backend Docker image
+  docker_image:
+    name: "{{ backend_image }}"
+    source: build
+    build:
+      path: "{{ app_path }}/backend"
+
+- name: Run backend container with RDS credentials
+  docker_container:
+    name: backend
+    image: "{{ backend_image }}"
+    state: started
+    env:
+      DB_HOST: "{{ rds_host }}"
+      PORT: "{{ rds_port }}"
+      DB_USER: "{{ rds_user }}"
+      DB_PASSWORD: "{{ rds_password }}"
+      DB_NAME: "{{ db_name }}"
+    
+      APP_PORT: "{{ app_port }}"
+      NODE_ENV: "{{ node_env }}"
+    
+      JWT_SECRET: "{{ jwt_secret }}"
+      JWT_EXPIRES_IN: "{{ jwt_expires_in }}"
+    ports:
+      - "84:80"
+    restart_policy: always

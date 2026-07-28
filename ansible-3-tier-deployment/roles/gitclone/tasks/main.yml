@@ -1,0 +1,6 @@
+- name: Clone the GitHub repo
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ app_path }}"
+    force: yes
+
